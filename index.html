@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All in One IS - Dashboard</title>
+  <!-- ใช้ไอคอนจาก Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Prompt:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4a6cf7;
+      --secondary-color: #6a11cb;
+      --accent-color: #ffd700;
+      --text-color: #ffffff;
+      --card-bg: transparent;
+      --card-shadow: none;
+      --border-radius: 0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Kanit', 'Prompt', sans-serif;
+      background: linear-gradient(135deg, #1a2a6c, #2a3c8f, #4a6cf7);
+      color: var(--text-color);
+      text-align: center;
+      margin: 0;
+      padding: 20px 15px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      padding-bottom: 60px; /* เพิ่ม padding ด้านล่างเพื่อป้องกันเนื้อหาถูกบัง */
+    }
+    
+    .header {
+      margin-bottom: 25px; /* ลดระยะห่างจากหัวข้อ */
+      position: relative;
+    }
+    
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to right, #ffd700, #ffed4e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .logo::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #ffd700, transparent);
+    }
+    
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 300;
+      opacity: 0.8;
+      margin-top: 8px;
+    }
+    
+    /* Cards Grid - ปรับปรุงให้กระชับมากขึ้น */
+    .icon-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* ลดขนาดขั้นต่ำ */
+      gap: 8px; /* ลด gap ให้ชิดกันมากขึ้น */
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-radius: var(--border-radius);
+      border: none;
+      padding: 10px 5px; /* ลด padding ให้กระชับ */
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-color);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    
+    .card::before {
+      content: none;
+    }
+    
+    .card:hover {
+      transform: translateY(-3px); /* ลดการเคลื่อนที่เมื่อ hover */
+      box-shadow: none;
+    }
+    
+    .card:hover::before {
+      opacity: 0;
+    }
+    
+    .card-image {
+      width: 50px; /* ลดขนาดไอคอน */
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 6px; /* ลดระยะห่าง */
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      box-shadow: none;
+    }
+    
+    .card:hover .card-image {
+      transform: scale(1.05); /* ลดการขยายเมื่อ hover */
+      border-color: var(--accent-color);
+      box-shadow: none;
+    }
+    
+    /* ปรับปรุงข้อความใต้ไอคอนให้อ่านง่ายขึ้น */
+    .card-title {
+      font-size: 0.9rem; /* เพิ่มขนาดฟอนต์เล็กน้อย */
+      font-weight: 500;
+      margin-top: 3px; /* ลดระยะห่าง */
+      line-height: 1.3;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7); /* เพิ่มเงาให้ข้อความ */
+      color: #ffffff; /* กำหนดสีขาวชัดเจน */
+      background: rgba(0, 0, 0, 0.3); /* เพิ่มพื้นหลังโปร่งใสเพื่อเพิ่มคอนทราสต์ */
+      padding: 2px 4px;
+      border-radius: 4px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover .card-title {
+      background: rgba(0, 0, 0, 0.5); /* ทำให้พื้นหลังเข้มขึ้นเมื่อ hover */
+      color: #ffd700; /* เปลี่ยนสีเมื่อ hover */
+    }
+    
+    /* Footer */
+    .footer {
+      margin-top: 25px;
+      padding: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.8rem;
+      opacity: 0.7;
+      /* เพิ่มคุณสมบัติเหล่านี้เพื่อให้อยู่กลางจอด้านล่างสุด */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.2); /* เพิ่มพื้นหลังโปร่งใสเพื่อให้อ่านง่ายขึ้น */
+      backdrop-filter: blur(5px); /* เพิ่มเอฟเฟกต์เบลอ */
+      z-index: 100; /* ให้อยู่ด้านบนสุด */
+    }
+    
+    /* สไตล์สำหรับอนุภาคพื้นหลัง */
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    /* เอฟเฟกต์แสงสว่าง */
+    .glow {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 215, 0, 0) 70%);
+      filter: blur(8px);
+      z-index: 1;
+      animation: pulse 8s infinite alternate;
+    }
+    
+    .glow-1 {
+      top: 5%;
+      left: 5%;
+    }
+    
+    .glow-2 {
+      bottom: 5%;
+      right: 5%;
+      animation-delay: 2s;
+    }
+    
+    .glow-3 {
+      top: 40%;
+      right: 15%;
+      animation-delay: 4s;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .icon-links {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* ปรับขนาดสำหรับมือถือ */
+        gap: 6px; /* ลด gap สำหรับมือถือ */
+      }
+      
+      .logo {
+        font-size: 1.8rem;
+      }
+      
+      .card {
+        padding: 8px 4px; /* ลด padding สำหรับมือถือ */
+      }
+      
+      .card-image {
+        width: 45px; /* ลดขนาดไอคอนสำหรับมือถือ */
+        height: 45px;
+      }
+      
+      .card-title {
+        font-size: 0.85rem; /* เพิ่มขนาดฟอนต์เล็กน้อยสำหรับมือถือ */
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .icon-links {
+        grid-template-columns: repeat(4, 1fr); /* เปลี่ยนเป็น 4 คอลัมน์สำหรับหน้าจอเล็ก */
+        gap: 5px; /* ลด gap ลงอีก */
+      }
+      
+      .logo {
+        font-size: 1.6rem;
+      }
+      
+      .card-image {
+        width: 40px; /* ลดขนาดไอคอนสำหรับหน้าจอเล็ก */
+        height: 40px;
+      }
+      
+      .card-title {
+        font-size: 0.8rem; /* เพิ่มขนาดฟอนต์เล็กน้อยสำหรับหน้าจอเล็ก */
+      }
+      
+      body {
+        padding: 15px 10px;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .icon-links {
+        grid-template-columns: repeat(3, 1fr); /* เปลี่ยนเป็น 3 คอลัมน์สำหรับหน้าจอเล็กมาก */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- เอฟเฟกต์แสงสว่าง -->
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
+  
+  <!-- อนุภาคพื้นหลัง -->
+  <div id="particles"></div>
+  
+  <div class="container">
+    <div class="header">
+      <h1 class="logo">ALL TOOL</h1>
+      <p class="subtitle">ศูนย์รวมเครื่องมือทำงาน</p>
+    </div>
+    
+    <!-- Cards Grid -->
+    <div class="icon-links" id="cardsContainer">
+      <a href="https://golf021.github.io/Estimate-Roof01/" target="_blank" class="card">
+        <img src="https://i.postimg.cc/hj97bRz4/5255.jpg" alt="เอ็กเซลล์ออนไลน์" class="card-image">
+        <span class="card-title">คำนวนพื้นที่หลังคา ทรงปั้นหยา</span>
+      </a>
+      
+      <a href="https://app.sketchup.com/app" target="_blank" class="card">
+        <img src="https://i.postimg.cc/284y3yXL/image.png" alt="SLA Installation" class="card-image">
+        <span class="card-title">Sketchup</span>
+      </a>
+      
+      <a href="https://golf021.github.io/-Cpac/" target="_blank" class="card">
+        <img src="https://i.postimg.cc/j2s7d38C/998899.jpg" alt="SLA Installation" class="card-image">
+        <span class="card-title">หาระยะแป_CPAC</span>
+      </a>
+      
+      <a href="https://golf021.github.io/picroof_by_GOLF/" target="_blank" class="card">
+        <img src="https://i.postimg.cc/26s1JmH4/dji-fly-20230520-161306-238-1684574294052-photo-optimized.jpg" alt="SLA Installation" class="card-image">
+        <span class="card-title">ภาพมุงหลังคา</span>
+      </a>
+
+      <a href="https://www.tiktok.com/@golf..roof?_t=ZS-8zfMJjuS1DU&_r=1" target="_blank" class="card">
+        <img src="https://i.postimg.cc/MKYvtJvL/apps-4784-13634052595610511-c45457c9-b4af-46b0-8e61-8d7c0aec3f56.png" alt="SLA Installation" class="card-image">
+        <span class="card-title">TIKTOK รีวิวหลังคา</span>
+      </a>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <p>All in One IS Dashboard &copy; 2025 | อัปเดตล่าสุด: <span id="lastUpdated">วันนี้</span></p>
+    </div>
+  </div>
+
+  <script>
+    // DOM Elements
+    const cards = document.querySelectorAll('.card');
+
+    // Card Click - Open Link Directly
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        const link = card.getAttribute('href');
+        window.open(link, '_blank');
+      });
+    });
+
+    // สร้างอนุภาคพื้นหลัง
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        const size = Math.random() * 10 + 5;
+        const left = Math.random() * 100;
+        const animationDuration = Math.random() * 20 + 10;
+        const animationDelay = Math.random() * 20;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${left}%`;
+        particle.style.animationDuration = `${animationDuration}s`;
+        particle.style.animationDelay = `${animationDelay}s`;
+        particle.style.opacity = Math.random() * 0.5 + 0.1;
+        
+        particlesContainer.appendChild(particle);
+    }
+  </script>
+</body>
+</html>
